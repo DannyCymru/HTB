@@ -60,7 +60,7 @@ func main() {
 	url := os.Args[1]
 
 	//If block to ensure that whether you provide the IP with the protocol or not, that required variables get appropriately set.
-	//Domain needs to solely be the IP/PortNumber while URL, needs the protocol.
+	//Domain needs to solely be the IP/PortNumber while URL needs the protocol.
 	var domain string
 	if  strings.Index(url,"http://") >=0 {
 		domain = strings.Trim(url,"http://")
@@ -69,7 +69,7 @@ func main() {
 		url = "http://" + domain
 	}
 	
-	//Create collection config for our actions
+	//Create collection config for our connections
 	c:= colly.NewCollector(
 		colly.AllowedDomains(
 			domain,
@@ -77,7 +77,8 @@ func main() {
 		colly.Async(true),
 	)
 
-	c.SetProxy("http://127.0.0.1:8080")
+	//Proxy in case debugging is necessary
+	//c.SetProxy("http://127.0.0.1:8080")
 
 	var to_hash, cookie = scrape(url, c)
 
